@@ -5,6 +5,7 @@ use Carbon\Carbon;
 
 class Post extends Model
 {
+    protected $fillable = [ 'img_url', 'user_id', 'post_id', 'title', 'body'];
     public function comments()
     {
     	return $this->hasMany(Comment::class);
@@ -12,12 +13,21 @@ class Post extends Model
 
     public function addComment($body)
     {
-    	$this->comments()->create(compact('body'));
+    	$this->comments()->create([
+            'user_id'=>$request['user_id'],
+            'post_id'=>$request['post_id'],
+            'body'=>$request['body']
+        ]);
     }
 
     public function user()
     {
     	return $this->belongsTo(User::class);
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
     }
 
     public function scopeFilter($query, $filters)
