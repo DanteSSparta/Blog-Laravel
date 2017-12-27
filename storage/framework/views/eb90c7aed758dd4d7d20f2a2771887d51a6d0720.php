@@ -2,9 +2,12 @@
 	<div class="col-sm-8 blog-main">
 		<h1>Publish a post</h1>
 		<hr>
-		<form method="POST" action="/posts">
+		<form method="POST" action="/posts" enctype="multipart/form-data">
 			<?php echo e(csrf_field()); ?>
 
+
+			<input type="file" name="file" id="file"/>
+            <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
 			<div class="form-group">
 				<label for="title">Title</label>
 				<input type="text" class="form-control" id="title" name="title">

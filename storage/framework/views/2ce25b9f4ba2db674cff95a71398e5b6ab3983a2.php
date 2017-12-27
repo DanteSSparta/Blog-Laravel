@@ -24,8 +24,24 @@
                 </ul>
             <?php endif; ?>
 
+            <img src="/photos/<?php echo e($post->img_url); ?>" alt="" style="width: 100%; 
             <?php echo e($post->body); ?>
 
+
+            <?php if($post->user_id==auth()->id()): ?>
+            <form method="post" action="<?php echo e(route('posts.destroy', $post)); ?>">
+                <?php echo e(csrf_field()); ?>
+
+                <?php echo e(method_field('DELETE')); ?>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" >Delete</button>
+            </div>
+            </form>
+                <div class="form-group">
+                <button type="submit" class="btn btn-primary" ><a href="/posts/<?php echo e($post->id); ?>/edit" style="color: white; text-decoration: none;">Edit </a></button>
+            </div>
+            <?php endif; ?>
 
           	<hr>
 
@@ -50,6 +66,8 @@
             		<form method="POST" action="/posts/<?php echo e($post->id); ?>/comments/">
             			<?php echo e(csrf_field()); ?>
 
+                        <input type="hidden" name="user_id" value="<?php echo e($post->user_id); ?>">
+                        <input type="hidden" name="post_id" value="<?php echo e($post->id); ?>">
 	            		<div class="form-group">
 							<textarea name="body" placeholder="Your comment here." class="form-control"></textarea>
 						</div>
